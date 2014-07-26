@@ -36,7 +36,7 @@ public class Sng3 extends PApplet{
 	public PFont pfont;
 	Loader l;
 	PImage loading;
-	int frameTop, border, smallborder, stroke, simage_w, simage_h, half_w, half_h;
+	int frameTop, frameSides, frameBottom, border, smallborder, stroke, simage_w, simage_h, half_w, half_h;
 	int [][][] symbol_cols;
 	
 	/**
@@ -94,14 +94,17 @@ public class Sng3 extends PApplet{
 				default:
 					setMouseXY();
 					
+					int temp_h = (height-frameTop)/2;
+					int half_w = width/2;
+					
 					int selected;			
-					if(mouseX >= 0 && mouseX < half_w && mouseY >= 0 && mouseY < half_h){
+					if(mouseX >= 0 && mouseX < half_w && mouseY >= 0 && mouseY < temp_h){
 						selected = 0;
-					}else if(mouseX >= half_w && mouseX <= width && mouseY >= 0 && mouseY < half_h){
+					}else if(mouseX >= half_w && mouseX <= width && mouseY >= 0 && mouseY < temp_h){
 						selected = 1;
-					}else if(mouseX >= 0 && mouseX < half_w && mouseY >= half_h && mouseY <= height){
+					}else if(mouseX >= 0 && mouseX < half_w && mouseY >= temp_h && mouseY <= height){
 						selected = 2;
-					}else if(mouseX >= half_w && mouseX <= width && mouseY >= half_h && mouseY <= height){
+					}else if(mouseX >= half_w && mouseX <= width && mouseY >= temp_h && mouseY <= height){
 						selected = 3;
 					}else{
 						selected = gui.selectedImage();
@@ -115,9 +118,9 @@ public class Sng3 extends PApplet{
 						case 1:
 							x = width/2; y = smallborder/2; break;
 						case 2:
-							x = smallborder/2; y = (height-frameTop)/2; break;
+							x = smallborder/2; y = temp_h; break;
 						default:
-							x = width/2; y = (height-frameTop)/2; break;
+							x = width/2; y = temp_h; break;
 					}
 					noFill();
 					stroke(0,255,0);
@@ -208,23 +211,42 @@ public class Sng3 extends PApplet{
 	
 	public void mouseReleased(){
 		 if(gui.screen() == 0){
-			 if(img.landscape){
-				 	border = mouseX/20;
-				 	smallborder = mouseX/30;
-					resize(mouseX, (int)(mouseX*img.aspectRatio));
-				}else{
-					border = (mouseY-frameTop)/20;
-					smallborder = (mouseY-frameTop)/30;
-					resize((int)(mouseY*img.aspectRatio), mouseY);
-				}
-			 	half_w = mouseX/2;
-				half_h = (mouseY- frameTop)/2;
-			 	simage_w = (mouseX/2)-(int)(smallborder*1.5);
-				simage_h = ((mouseY-frameTop)/2)-(int)(smallborder*1.5);
+			 setSizes(mouseX, mouseY);
 		 }else{
 			 gui.imageChosen(mouseX, mouseY, width/2, (height - frameTop)/2);
 		 }
 	 }
+	
+	public void setSizes(int w, int h){
+		if(img.landscape){
+			border = w/20;
+		 	smallborder = w/30;
+			resize(w, (int)(w*img.aspectRatio));
+		}else{
+			border = (h-frameTop)/20;
+			smallborder = (h-frameTop)/30;
+			resize((int)(h*img.aspectRatio), h);
+		}
+	}
+	
+	public void setSizes(){
+		if(img.landscape){
+			border = (img.width+frameSides)/20;
+			smallborder = (img.width+frameSides)/30;
+		}else{
+			border = (img.height+frameTop+frameBottom)/20;
+			smallborder = (img.height+frameTop+frameBottom)/30;		
+		}
+		resize(img.width + (int)(border*2) + frameSides, img.height + (int)(border*2) + frameBottom);
+	}
+	
+	public void keyPressed(){
+		if(key==CODED){
+			if(keyCode == PConstants.ALT && gui.screen() == 0){
+				setSizes();
+			}
+		}
+	}
 	
 	
 

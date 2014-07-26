@@ -123,6 +123,7 @@ public class SngImage implements Runnable, SngModes{
 			p5.shape(p5.brokenImg, p5.width/2, (p5.height-p5.frameTop)/2, p5.half_w, p5.half_w);
 		}else{
 			if(pimg.width <= 0 || pimg.height <= 0 ){
+				System.out.println("caught in drawBig");
 				broken = true;
 				p5.gui.writeMessage("image broken: reduce glitch or try again", true);
 			}else{
@@ -223,7 +224,6 @@ public class SngImage implements Runnable, SngModes{
 				toUse = (Palette)p5.palettes.get(gui.paletteKey());
 			}
 			
-			//PApplet.println("The palette has "+toUse.size+" colors");
 			CompleteImage ci;
 			if(toUse.size <= 1 || toUse == null){
 				PApplet.println("paletteSize <= 1 or palette is null");
@@ -459,6 +459,7 @@ public class SngImage implements Runnable, SngModes{
 					pimg.updatePixels();
 					
 					if(flosses.size()<=1){
+						System.out.println("floss Size <=1 in dither");
 						gui.writeMessage("image broken: reduce glitch or try again", true);
 						broken = true;
 						return null;
@@ -596,16 +597,17 @@ public class SngImage implements Runnable, SngModes{
 			    }
 			}
 			
-			if(flosses.size() <= 1){
+			if(pattern && flosses.size() <= 1){
 				gui.writeMessage("image broken: reduce glitch or try again", true);
 				broken = true;
 				return null;
 			}else{
 			
-				gui.writeMessage(flosses.size()+" colours given this mode", false);
+				
 				
 				if(pattern){
 				
+					gui.writeMessage(flosses.size()+" colours given this mode", false);
 					Palette p = new Palette(p5, flosses);
 					
 					for(int i=0; i<pixelLength; i++){
@@ -631,6 +633,7 @@ public class SngImage implements Runnable, SngModes{
 			}
 		
 		}catch(Exception e){
+			System.out.println("caught in doDither: "+e);
 			gui.writeMessage("image broken: reduce glitch or try again", true);
 			broken = true;
 			return null;

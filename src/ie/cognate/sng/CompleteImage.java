@@ -43,16 +43,18 @@ public class CompleteImage{
 		simple = false;
 		verysimple = false;
 		pattern = false;
-		this.img.loadPixels(); img.loadPixels();
+		this.img = new PImage(img.width, img.height, PConstants.ARGB);
+		this.img.loadPixels(); 
+		img.loadPixels();
 		for(int i=0; i<img.pixels.length; i++){
 			this.img.pixels[i] = img.pixels[i];
 		}
-		this.img.updatePixels(); img.updatePixels();
+		this.img.updatePixels(); 
+		img.updatePixels();
 	}
 	
 	public void export(int code, String name, String time){
 		
-		while(!p5.l.loaded){}
 		int num = 0;
 		if(code%SngModes.CSV==0){
 			exportCSV(name, time);
@@ -117,7 +119,11 @@ public class CompleteImage{
 	public void exportTIFF(String path, String time){
 		img.save(path+"/image-"+time+".tiff");
 		String [] parts = path.split("/");
-		String shortname = parts[parts.length-2]+"/"+parts[parts.length-1]+"/image-"+time+".tiff";
+		String shortname = "/image-"+time+".tiff";
+		if(parts.length >= 2)
+			shortname = parts[parts.length-2]+"/"+parts[parts.length-1]+shortname;
+		else if(parts.length > 0)
+			shortname = parts[parts.length-1]+shortname;
 		p5.gui.writeMessage("image saved at "+shortname);
 		done++;
 	}
@@ -155,7 +161,11 @@ public class CompleteImage{
 				makeMulti();
 			}
 			String [] parts = name.split("/");
-			String shortname = parts[parts.length-2]+"/"+parts[parts.length-1]+"/pattern-"+time+".pdf";
+			String shortname = "/pattern-"+time+".pdf";
+			if(parts.length >= 2)
+				shortname = parts[parts.length-2]+"/"+parts[parts.length-1]+shortname;
+			else if(parts.length > 0)
+				shortname = parts[parts.length-1]+shortname;
 			p5.gui.writeMessage("pattern complete at "+shortname);
 			done++;
 			setSize(size*2);
@@ -486,7 +496,11 @@ public class CompleteImage{
 			int margin = 10;
 			PGraphicsPDF pdf = (PGraphicsPDF) p5.createGraphics(margin*2+img.width, margin*2+img.height, PConstants.PDF, name+"/vector-"+time+".pdf");
 			String [] parts = name.split("/");
-			String shortname = parts[parts.length-2]+"/"+parts[parts.length-1]+"/vector-"+time+".pdf";
+			String shortname = "/vector-"+time+".pdf";
+			if(parts.length >= 2)
+				shortname = parts[parts.length-2]+"/"+parts[parts.length-1]+shortname;
+			else if(parts.length > 0)
+				shortname = parts[parts.length-1]+shortname;
 			img.loadPixels();
 			int posX = margin;
 			int posY = margin;
@@ -527,7 +541,11 @@ public class CompleteImage{
 			
 			PrintWriter output = p5.createWriter(name+"/data-"+time+".csv");
 			String [] parts = name.split("/");
-			String shortname = parts[parts.length-2]+"/"+parts[parts.length-1]+"/data-"+time+".csv";
+			String shortname = "/data-"+time+".csv";
+			if(parts.length >= 2)
+				shortname = parts[parts.length-2]+"/"+parts[parts.length-1]+shortname;
+			else if(parts.length > 0)
+				shortname = parts[parts.length-1]+shortname;
 			img.loadPixels();
 			for(int y=0; y<img.height; y++){
 				for(int x = 0; x<img.width; x++){

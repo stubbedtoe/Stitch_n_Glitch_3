@@ -46,6 +46,8 @@ public class Loader implements Runnable {
 		
 		Insets in = p5.frame.getInsets();
 		p5.frameTop = in.top;
+		p5.frameSides = in.left + in.right;
+		p5.frameBottom = in.bottom;
 		p5.border = p5.width/20;
 		p5.smallborder = p5.width/30;
 		p5.simage_w = (p5.width/2)-(int)(p5.smallborder*1.5);

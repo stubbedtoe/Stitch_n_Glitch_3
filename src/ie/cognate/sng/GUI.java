@@ -565,6 +565,10 @@ public class GUI extends PApplet implements SngModes{
 			if(p5.img.history[selectedImage()] != null){
 				text("NON PATTERN OPTIONS:", 200, 70);
 				cp5.getGroup("ae").setVisible(true);
+				if(!p5.img.pattern){
+					non_patterns.getItem(0).setVisible(false);
+					non_patterns.getItem(1).setVisible(false);
+				}
 				if(p5.img.history[selectedImage()].pattern && p5.img.history[selectedImage()].mode != SngModes.ACTUAL){
 					text("PATTERN OPTIONS:", 400, 70);
 					cp5.getGroup("bw").setVisible(true);
@@ -669,13 +673,13 @@ public class GUI extends PApplet implements SngModes{
 	
 	public void export(){
 		int exportCode = 1;
-		if(non_patterns.getState(0))
+		if(non_patterns.getState(0) && p5.img.pattern)
 			exportCode *= SngModes.PDF;
-		if(non_patterns.getState(1))
+		if(non_patterns.getState(1) && p5.img.pattern)
 			exportCode *= SngModes.CSV;
 		if(non_patterns.getState(2))
 			exportCode *= SngModes.TIFF;
-		if((int)pattern_options.getValue() != 0)
+		if((int)pattern_options.getValue() != 0 && p5.img.pattern)
 			exportCode *= (int)pattern_options.getValue();
 		if(exportCode < 0)
 			exportCode *= -1;
@@ -686,6 +690,9 @@ public class GUI extends PApplet implements SngModes{
 			if(exportCode%tests[i] == 0)
 				println(prints[i]);
 		}*/
+		PApplet.println("selectedImage: "+selectedImage());
+		PApplet.println("exportCode: "+exportCode);
+		PApplet.println("exportName: "+getExportName());
 		p5.img.history[selectedImage()].export(exportCode, sketchPath+"/exports/"+getExportName(), nf(hour(),2)+nf(minute(),2)+nf(second(),2));
 			
 	}
@@ -699,7 +706,7 @@ public class GUI extends PApplet implements SngModes{
 		return p5.symbol_cols[symcolors];
 	}
 	
-	public void imageChosen(int x, int y, int h, int w){
+	public void imageChosen(int x, int y, int w, int h){
 		if(x >= 0 && x < w && y >= 0 && y < h){
 			choose_image.activate(0);
 		}else if(x >= w && x <= w*2 && y >= 0 && y < h){
