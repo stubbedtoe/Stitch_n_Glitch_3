@@ -46,6 +46,18 @@ This is only a brief run-though (there was no mention of the Palette features, e
 
 ***************************************************************************
 
+COMPILING FROM SOURCE:
+
+- Open Eclipse and create a new Java Project (File -> New -> Java Project)
+- Name it whatever you want
+- Uncheck "Use default location" and instead select the "source" folder inside the download
+- Leave the rest as default and click "Finish"
+- Open "Sng3.java" in the editor. This is the class containing the "main" method
+- Click Run -> Run As -> Java Application
+- The first time, you my be prompted for the location of the main method: select the "Sng3" class
+
+***************************************************************************
+
 ACKNOWLEDGEMENTS
 
 -Coded 2012 (revised 2013, revised again 2014) by Andrew Healy (andrewhealy.com, cognate.ie)
