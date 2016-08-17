@@ -66,4 +66,4 @@ This is only a brief run-though (there was no mention of the Palette features, e
 * DMC floss to RGB/HEX conversion from a document at http://www.radicalcrossstitch.com/
 * Dithering algorithms ported to Java from the Macro code found at http://fiji.sc/wiki/index.php/Dithering
 * Many thanks to the Processing community for sharing their knowledge.
-* Project inspired by the *Lost Threads* research project and [blog](http://lost threads.tumblr.com)
+* Project inspired by the *Lost Threads* research project and [blog](http://lostthreads.tumblr.com)
